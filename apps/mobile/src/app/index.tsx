@@ -1,17 +1,5 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { JobListScreen } from '../features/jobs/JobListScreen';
 
-export default function Index() {
-  return (
-    <View style={styles.container}>
-      <Text>Edit src/app/index.tsx to edit this screen.</Text>
-    </View>
-  );
+export default function IndexRoute() {
+  return <JobListScreen />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

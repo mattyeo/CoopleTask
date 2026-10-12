@@ -7,7 +7,9 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
-        <Stack />
+        <Stack>
+          <Stack.Screen name="index" options={{ title: 'Coople Jobs' }} />
+        </Stack>
       </SafeAreaProvider>
     </QueryClientProvider>
   );
