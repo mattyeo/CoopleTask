@@ -1,0 +1,49 @@
+{
+  "status": 200,
+  "data": {
+    "items": [
+      {
+        "workAssignmentId": "2c92cf2f-5073-4842-bedd-580e3a8feea9",
+        "waReadableId": "60261055776",
+        "hourlyWage": { "amount": 27.0, "currencyId": 1 },
+        "salary": { "amount": 445.5, "currencyId": 1 },
+        "jobSkill": { "jobProfileId": 79 },
+        "workAssignmentName": "AllrounderIn / BetriebsmitarbeiterIn",
+        "jobLocation": {
+          "addressStreet": "",
+          "extraAddress": "",
+          "zip": "6343",
+          "city": "Rotkreuz ZG",
+          "countryId": 1
+        },
+        "periodFrom": 1791777600000,
+        "datePublished": 1791472929000,
+        "branchLink": "https://coople.app.link/DV6KNlsy46b"
+      },
+      {
+        "workAssignmentId": "e9bda8ea-e230-48b8-8241-563746b1debb",
+        "waReadableId": "60261055733",
+        "hourlyWage": { "amount": 35.8, "currencyId": 1 },
+        "salary": { "amount": 306.69, "currencyId": 1 },
+        "jobSkill": { "jobProfileId": 92, "educationalLevelId": 61 },
+        "workAssignmentName": "Pflegehelfer/in SRK",
+        "jobLocation": {
+          "addressStreet": "",
+          "extraAddress": "",
+          "zip": "9322",
+          "city": "Egnach",
+          "state": "",
+          "countryId": 1
+        },
+        "periodFrom": 1791780600000,
+        "datePublished": 1791752517000,
+        "branchLink": "https://coople.app.link/Dt1szbLt46b"
+      }
+    ],
+    "total": 650
+  },
+  "errorCode": "OK",
+  "errorDetails": {},
+  "errorId": 0,
+  "error": false
+}

@@ -1,0 +1,31 @@
+{
+  "status": 200,
+  "data": {
+    "workAssignmentId": "2c92cf2f-5073-4842-bedd-580e3a8feea9",
+    "waReadableId": "60261055776",
+    "hourlyWage": { "amount": 27.0, "currencyId": 1 },
+    "salary": { "amount": 445.5, "currencyId": 1 },
+    "jobSkill": { "jobProfileId": 79 },
+    "workAssignmentName": "AllrounderIn / BetriebsmitarbeiterIn",
+    "jobLocation": {
+      "addressStreet": "",
+      "extraAddress": "",
+      "zip": "6343",
+      "city": "Rotkreuz ZG",
+      "countryId": 1
+    },
+    "periodFrom": 1791777600000,
+    "datePublished": 1791472929000,
+    "branchLink": "https://coople.app.link/DV6KNlsy46b",
+    "requirements": "Die AG sucht einen Allrounder / Betriebsmitarbeiter, der unser Team unterstützt.\nIn dieser temporären Position sind Sie eine wichtige Unterstützung in unserer Küche.\n**Aufgaben:**\n- Gemüse und andere Zutaten für die Küche rüsten\n- Abwasch und Reinigung des Geschirrs\n\n**Erforderliche Fähigkeiten:**\n- Erfahrung in ähnlichen Positionen\n- Zuverlässigkeit und Pünktlichkeit",
+    "clothingRequirements": "T-Shirt und Schürze werden vom Arbeitgeber gestellt",
+    "periodTo": 1791982800000,
+    "firstShiftTo": 1791810000000,
+    "shiftsCount": 2,
+    "workDuration": 990
+  },
+  "errorCode": "OK",
+  "errorDetails": {},
+  "errorId": 0,
+  "error": false
+}
