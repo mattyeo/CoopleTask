@@ -1,5 +1,5 @@
 import type { JobSummary } from '@coople-jobs/shared';
-import { Link, type Href } from 'expo-router';
+import { Link } from 'expo-router';
 import { memo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { formatDateTime, formatMoney } from '../../lib/format';
@@ -13,8 +13,7 @@ export const JobListItem = memo(function JobListItem({ job }: JobListItemProps) 
 
   return (
     <View style={styles.row}>
-      {/* TODO(C11): drop the cast once the typed route for /job/[id] exists */}
-      <Link href={`/job/${job.id}` as Href} asChild>
+      <Link href={`/job/${job.id}`} asChild>
         <Pressable accessibilityRole="link" style={styles.content}>
           <Text style={styles.title} numberOfLines={2}>
             {job.title}
