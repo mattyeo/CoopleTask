@@ -76,7 +76,12 @@ export const maxWidths = {
   details: 1040,
   narrow: 720,
   state: 480,
+  /** About 70 characters per line of body text. */
+  readableText: 680,
 } as const;
+
+/** Width of the details side card on expanded screens. */
+export const sidebarWidth = 340;
 
 /** Smallest comfortable touch target, in points. */
 export const touchTarget = 44;

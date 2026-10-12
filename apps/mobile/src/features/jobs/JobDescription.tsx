@@ -1,4 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native';
+import {
+  colors,
+  fontSizes,
+  fontWeights,
+  lineHeights,
+  maxWidths,
+  spacing,
+} from '../../theme/tokens';
 import { parseDescription, parseInline } from './parseDescription';
 
 interface JobDescriptionProps {
@@ -48,36 +56,38 @@ export function JobDescription({ text }: JobDescriptionProps) {
 
 const styles = StyleSheet.create({
   container: {
-    gap: 6,
+    gap: spacing.sm,
+    maxWidth: maxWidths.readableText,
   },
   heading: {
-    color: '#111827',
-    fontSize: 16,
-    fontWeight: '700',
-    marginTop: 10,
+    color: colors.text,
+    fontSize: fontSizes.md,
+    fontWeight: fontWeights.semibold,
+    lineHeight: lineHeights.md,
+    marginTop: spacing.md,
   },
   paragraph: {
-    color: '#1f2937',
-    fontSize: 15,
-    lineHeight: 22,
+    color: colors.text,
+    fontSize: fontSizes.sm,
+    lineHeight: lineHeights.sm,
   },
   bold: {
-    fontWeight: '700',
+    fontWeight: fontWeights.semibold,
   },
   bulletRow: {
     flexDirection: 'row',
-    gap: 8,
-    paddingLeft: 4,
+    gap: spacing.sm,
+    paddingLeft: spacing.xs,
   },
   bulletMark: {
-    color: '#1f2937',
-    fontSize: 15,
-    lineHeight: 22,
+    color: colors.textMuted,
+    fontSize: fontSizes.sm,
+    lineHeight: lineHeights.sm,
   },
   bulletText: {
+    color: colors.text,
     flex: 1,
-    color: '#1f2937',
-    fontSize: 15,
-    lineHeight: 22,
+    fontSize: fontSizes.sm,
+    lineHeight: lineHeights.sm,
   },
 });

@@ -2,12 +2,28 @@ import type { JobDetails } from '@coople-jobs/shared';
 import { Stack } from 'expo-router';
 import type { ReactNode } from 'react';
 import { ActivityIndicator, Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components/Button';
+import { Card } from '../../components/Card';
 import { ErrorState } from '../../components/ErrorState';
 import { LoadingState } from '../../components/LoadingState';
 import { formatDateTime, formatDuration, formatMoney } from '../../lib/format';
 import { goBackToList } from '../../lib/navigation';
+import {
+  colors,
+  fontSizes,
+  fontWeights,
+  lineHeights,
+  maxWidths,
+  radii,
+  sidebarWidth,
+  spacing,
+} from '../../theme/tokens';
+import { useBreakpoint } from '../../theme/useBreakpoint';
+import { useContainerStyle } from '../../theme/useContainerStyle';
 import { FavouriteButton } from '../favourites/FavouriteButton';
+import { DetailRows, type DetailRow } from './DetailRows';
+import { DetailSection } from './DetailSection';
 import { JobDescription } from './JobDescription';
 import { useJob } from './useJob';
 
@@ -15,13 +31,11 @@ interface JobDetailsScreenProps {
   id: string;
 }
 
-interface DetailRow {
-  label: string;
-  value: string | null;
-}
-
 export function JobDetailsScreen({ id }: JobDetailsScreenProps) {
   const { data: job, isError, error, isPlaceholderData, refetch } = useJob(id);
+  const isExpanded = useBreakpoint() === 'expanded';
+  const containerStyle = useContainerStyle(isExpanded ? maxWidths.details : maxWidths.narrow);
+  const insets = useSafeAreaInsets();
 
   if (job === undefined) {
     return isError ? (
@@ -31,68 +45,156 @@ export function JobDetailsScreen({ id }: JobDetailsScreenProps) {
     );
   }
 
-  return (
-    <ScrollView contentContainerStyle={styles.content}>
-      <Stack.Screen
-        options={{ title: job.title, headerRight: () => <FavouriteButton jobId={job.id} /> }}
-      />
+  // While only the list summary is known (`isPlaceholderData`), the sections that need the full
+  // details are replaced by one spinner; everything else is already real data.
+  const hasFullDetails = !isPlaceholderData;
 
-      <View style={styles.header}>
-        <Text style={styles.title} accessibilityRole="header">
-          {job.title}
-        </Text>
-        <Text style={styles.reference}>Reference {job.referenceNumber}</Text>
+  const scheduleRows: DetailRow[] = [
+    { label: 'Starts', value: formatDateTime(job.startsAt) },
+    { label: 'Ends', value: formatDateTime(job.endsAt) },
+    { label: 'First shift ends', value: formatDateTime(job.firstShiftEndsAt) },
+    { label: 'Shifts', value: job.shiftCount === null ? null : String(job.shiftCount) },
+    { label: 'Total work time', value: formatDuration(job.totalWorkMinutes) },
+  ];
+
+  const pay = (
+    <DetailSection title="Pay">
+      <View>
+        <View style={styles.hourlyRow}>
+          <Text style={styles.hourlyAmount}>{formatMoney(job.hourlyWage)}</Text>
+          <Text style={styles.hourlyUnit}>per hour</Text>
+        </View>
+        <Text style={styles.totalPay}>Total for this assignment: {formatMoney(job.totalPay)}</Text>
       </View>
+    </DetailSection>
+  );
 
-      <Section title="Pay">
-        <Rows
-          rows={[
-            { label: 'Hourly wage', value: formatMoney(job.hourlyWage) },
-            { label: 'Total pay', value: formatMoney(job.totalPay) },
+  const location = (
+    <DetailSection title="Location">
+      <Text style={styles.body}>{formatLocation(job)}</Text>
+    </DetailSection>
+  );
+
+  const schedule =
+    hasFullDetails && scheduleRows.some((row) => row.value !== null) ? (
+      <DetailSection title="Schedule">
+        <DetailRows rows={scheduleRows} />
+      </DetailSection>
+    ) : null;
+
+  const dressCode =
+    hasFullDetails && job.dressCode ? (
+      <DetailSection title="Dress code">
+        <Text style={styles.body}>{job.dressCode}</Text>
+      </DetailSection>
+    ) : null;
+
+  const description =
+    hasFullDetails && job.description ? (
+      <DetailSection title="Description">
+        <JobDescription text={job.description} />
+      </DetailSection>
+    ) : null;
+
+  const appLink =
+    hasFullDetails && job.appLink ? (
+      <Button label="Open in Coople app" onPress={() => void openAppLink(job.appLink)} />
+    ) : null;
+
+  const loading = hasFullDetails ? null : (
+    <Card style={styles.loadingCard}>
+      <ActivityIndicator size="large" color={colors.primary} accessibilityLabel="Loading" />
+    </Card>
+  );
+
+  const header = <HeaderCard job={job} isLarge={isExpanded} />;
+
+  return (
+    <ScrollView
+      contentContainerStyle={[
+        containerStyle,
+        styles.page,
+        { paddingBottom: spacing.xxl + insets.bottom },
+      ]}
+    >
+      <Stack.Screen options={{ title: job.title }} />
+      {header}
+
+      {isExpanded ? (
+        <ExpandedBody
+          main={[
+            loading,
+            description && <Card>{description}</Card>,
+            dressCode && <Card>{dressCode}</Card>,
           ]}
+          side={[pay, schedule, location]}
+          action={appLink}
         />
-      </Section>
-
-      <Section title="Location">
-        <Text style={styles.value}>{formatLocation(job)}</Text>
-      </Section>
-
-      {isPlaceholderData ? (
-        <ActivityIndicator size="large" style={styles.bodySpinner} accessibilityLabel="Loading" />
       ) : (
         <>
-          <Section title="Schedule">
-            <Rows
-              rows={[
-                { label: 'Starts', value: formatDateTime(job.startsAt) },
-                { label: 'Ends', value: formatDateTime(job.endsAt) },
-                { label: 'First shift ends', value: formatDateTime(job.firstShiftEndsAt) },
-                { label: 'Shifts', value: job.shiftCount === null ? null : String(job.shiftCount) },
-                { label: 'Total work time', value: formatDuration(job.totalWorkMinutes) },
-              ]}
-            />
-          </Section>
-
-          {job.dressCode ? (
-            <Section title="Dress code">
-              <Text style={styles.value}>{job.dressCode}</Text>
-            </Section>
-          ) : null}
-
-          {job.description ? (
-            <Section title="Description">
-              <JobDescription text={job.description} />
-            </Section>
-          ) : null}
-
-          {job.appLink ? (
-            <View style={styles.action}>
-              <Button label="Open in Coople app" onPress={() => void openAppLink(job.appLink)} />
-            </View>
-          ) : null}
+          <Card>{pay}</Card>
+          {loading}
+          {schedule ? <Card>{schedule}</Card> : null}
+          <Card>{location}</Card>
+          {dressCode ? <Card>{dressCode}</Card> : null}
+          {description ? <Card>{description}</Card> : null}
+          {appLink}
         </>
       )}
     </ScrollView>
+  );
+}
+
+function HeaderCard({ job, isLarge }: { job: JobDetails; isLarge: boolean }) {
+  return (
+    <Card style={styles.headerCard}>
+      <View style={styles.headerText}>
+        <Text style={[styles.title, isLarge && styles.titleLarge]} accessibilityRole="header">
+          {job.title}
+        </Text>
+        <View style={styles.reference}>
+          <Text style={styles.referenceText}>Ref. {job.referenceNumber}</Text>
+        </View>
+      </View>
+      <FavouriteButton jobId={job.id} />
+    </Card>
+  );
+}
+
+interface ExpandedBodyProps {
+  main: ReactNode[];
+  side: ReactNode[];
+  action: ReactNode;
+}
+
+/** Two columns: long text on the left, a card with the key facts on the right. */
+function ExpandedBody({ main, side, action }: ExpandedBodyProps) {
+  const mainItems = main.filter(Boolean);
+  const sideItems = side.filter(Boolean);
+
+  const sideCard = (
+    <Card style={styles.sideCard}>
+      {sideItems.map((item, index) => (
+        <View key={index} style={index > 0 && styles.sideDivided}>
+          {item}
+        </View>
+      ))}
+      {action}
+    </Card>
+  );
+
+  // Nothing to put in the main column (no description or dress code): do not leave it empty.
+  if (mainItems.length === 0) return sideCard;
+
+  return (
+    <View style={styles.columns}>
+      <View style={styles.mainColumn}>
+        {mainItems.map((item, index) => (
+          <View key={index}>{item}</View>
+        ))}
+      </View>
+      <View style={styles.sideColumn}>{sideCard}</View>
+    </View>
   );
 }
 
@@ -111,82 +213,95 @@ async function openAppLink(url: string | null): Promise<void> {
   }
 }
 
-function Section({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <View style={styles.section}>
-      <Text style={styles.sectionTitle} accessibilityRole="header">
-        {title}
-      </Text>
-      {children}
-    </View>
-  );
-}
-
-/** Renders label/value pairs, skipping the ones without a value. */
-function Rows({ rows }: { rows: DetailRow[] }) {
-  return (
-    <View style={styles.rows}>
-      {rows.map((row) =>
-        row.value === null ? null : (
-          <View key={row.label} style={styles.row}>
-            <Text style={styles.label}>{row.label}</Text>
-            <Text style={styles.value}>{row.value}</Text>
-          </View>
-        ),
-      )}
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
-  content: {
-    gap: 20,
-    padding: 16,
-    paddingBottom: 32,
+  page: {
+    gap: spacing.lg,
+    paddingTop: spacing.lg,
   },
-  header: {
-    gap: 4,
+  headerCard: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: spacing.md,
+    justifyContent: 'space-between',
+  },
+  headerText: {
+    flex: 1,
+    gap: spacing.sm,
   },
   title: {
-    color: '#111827',
-    fontSize: 22,
-    fontWeight: '700',
+    color: colors.text,
+    fontSize: fontSizes.xl,
+    fontWeight: fontWeights.bold,
+    lineHeight: lineHeights.xl,
+  },
+  titleLarge: {
+    fontSize: fontSizes.xxl,
+    lineHeight: lineHeights.xxl,
   },
   reference: {
-    color: '#6b7280',
-    fontSize: 13,
+    alignSelf: 'flex-start',
+    backgroundColor: colors.background,
+    borderRadius: radii.pill,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
   },
-  section: {
-    gap: 8,
+  referenceText: {
+    color: colors.textMuted,
+    fontSize: fontSizes.xs,
+    lineHeight: lineHeights.xs,
   },
-  sectionTitle: {
-    color: '#6b7280',
-    fontSize: 13,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-  },
-  rows: {
-    gap: 6,
-  },
-  row: {
+  hourlyRow: {
+    alignItems: 'baseline',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 16,
+    flexWrap: 'wrap',
+    gap: spacing.sm,
   },
-  label: {
-    color: '#4b5563',
-    fontSize: 15,
+  hourlyAmount: {
+    color: colors.onPrimarySoft,
+    fontSize: fontSizes.xxl,
+    fontWeight: fontWeights.bold,
+    lineHeight: lineHeights.xxl,
   },
-  value: {
-    color: '#111827',
-    fontSize: 15,
-    flexShrink: 1,
-    textAlign: 'right',
+  hourlyUnit: {
+    color: colors.textMuted,
+    fontSize: fontSizes.sm,
+    lineHeight: lineHeights.sm,
   },
-  bodySpinner: {
-    marginTop: 24,
+  totalPay: {
+    color: colors.textMuted,
+    fontSize: fontSizes.sm,
+    lineHeight: lineHeights.sm,
+    marginTop: spacing.xs,
   },
-  action: {
+  body: {
+    color: colors.text,
+    fontSize: fontSizes.sm,
+    lineHeight: lineHeights.sm,
+  },
+  loadingCard: {
+    alignItems: 'center',
+    paddingVertical: spacing.xxl,
+  },
+  columns: {
     alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: spacing.lg,
+  },
+  mainColumn: {
+    flex: 1,
+    gap: spacing.lg,
+    minWidth: 0,
+  },
+  sideColumn: {
+    flexShrink: 0,
+    width: sidebarWidth,
+  },
+  sideCard: {
+    gap: spacing.lg,
+  },
+  sideDivided: {
+    borderTopColor: colors.border,
+    borderTopWidth: 1,
+    paddingTop: spacing.lg,
   },
 });

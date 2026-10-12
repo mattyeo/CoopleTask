@@ -1,12 +1,28 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { EmptyState } from '../../components/EmptyState';
 import { ErrorState } from '../../components/ErrorState';
 import { LoadingState } from '../../components/LoadingState';
+import {
+  colors,
+  fontSizes,
+  fontWeights,
+  lineHeights,
+  maxWidths,
+  radii,
+  spacing,
+} from '../../theme/tokens';
+import { getColumnCount, useBreakpoint } from '../../theme/useBreakpoint';
+import { useContainerStyle } from '../../theme/useContainerStyle';
 import { JobListItem } from './JobListItem';
+import { toListEntries, type ListEntry } from './listLayout';
 import { useJobs } from './useJobs';
 
 export function JobListScreen() {
   const { data, isError, refetch, error, isRefetching } = useJobs();
+  const columns = getColumnCount(useBreakpoint());
+  const containerStyle = useContainerStyle(maxWidths.list);
+  const insets = useSafeAreaInsets();
 
   if (data === undefined) {
     return isError ? <ErrorState error={error} onRetry={() => void refetch()} /> : <LoadingState />;
@@ -24,14 +40,25 @@ export function JobListScreen() {
 
   return (
     <FlatList
-      data={data.items}
-      keyExtractor={(job) => job.id}
-      renderItem={({ item }) => <JobListItem job={item} />}
-      ItemSeparatorComponent={Separator}
+      // numColumns cannot change on a mounted list, so a new column count remounts it.
+      key={columns}
+      data={toListEntries(data.items, columns)}
+      numColumns={columns}
+      keyExtractor={(entry) => entry.key}
+      renderItem={({ item }) => <ListCell entry={item} />}
+      ItemSeparatorComponent={RowSeparator}
+      columnWrapperStyle={columns > 1 ? styles.row : undefined}
+      contentContainerStyle={[
+        containerStyle,
+        { paddingTop: spacing.lg, paddingBottom: spacing.xxl + insets.bottom },
+      ]}
       ListHeaderComponent={
-        isError ? (
-          <Text style={styles.banner}>Could not refresh. Showing the last loaded jobs.</Text>
-        ) : null
+        <View style={styles.header}>
+          {isError ? (
+            <Text style={styles.banner}>Could not refresh. Showing the last loaded jobs.</Text>
+          ) : null}
+          <Text style={styles.count}>{data.total} jobs available</Text>
+        </View>
       }
       refreshing={isRefetching}
       onRefresh={() => void refetch()}
@@ -39,19 +66,44 @@ export function JobListScreen() {
   );
 }
 
-function Separator() {
+function ListCell({ entry }: { entry: ListEntry }) {
+  if (entry.kind === 'filler') {
+    return <View style={styles.filler} importantForAccessibility="no-hide-descendants" />;
+  }
+  return <JobListItem job={entry.job} />;
+}
+
+function RowSeparator() {
   return <View style={styles.separator} />;
 }
 
 const styles = StyleSheet.create({
-  separator: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: '#d1d5db',
+  header: {
+    gap: spacing.md,
+    paddingBottom: spacing.lg,
+  },
+  count: {
+    color: colors.textMuted,
+    fontSize: fontSizes.sm,
+    fontWeight: fontWeights.semibold,
+    lineHeight: lineHeights.sm,
   },
   banner: {
-    backgroundColor: '#fef3c7',
-    color: '#92400e',
-    padding: 12,
+    backgroundColor: colors.warningSurface,
+    borderRadius: radii.md,
+    color: colors.onWarningSurface,
+    fontSize: fontSizes.sm,
+    lineHeight: lineHeights.sm,
+    padding: spacing.md,
     textAlign: 'center',
+  },
+  row: {
+    gap: spacing.lg,
+  },
+  separator: {
+    height: spacing.lg,
+  },
+  filler: {
+    flex: 1,
   },
 });
