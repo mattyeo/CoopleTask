@@ -67,6 +67,7 @@ export function JobListScreen() {
 
   return (
     <FlatList
+      testID="job-list"
       // numColumns cannot change on a mounted list, so a new column count remounts it.
       key={columns}
       data={entries}
@@ -106,7 +107,13 @@ export function JobListScreen() {
 
 function ListCell({ entry }: { entry: ListEntry }) {
   if (entry.kind === 'filler') {
-    return <View style={styles.filler} importantForAccessibility="no-hide-descendants" />;
+    return (
+      <View
+        testID="list-filler"
+        style={styles.filler}
+        importantForAccessibility="no-hide-descendants"
+      />
+    );
   }
   return <JobListItem job={entry.job} />;
 }

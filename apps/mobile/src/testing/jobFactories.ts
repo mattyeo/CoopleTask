@@ -1,4 +1,40 @@
-import type { JobSummary, Page } from '@coople-jobs/shared';
+import type { JobDetails, JobSummary, Page } from '@coople-jobs/shared';
+
+/** A job with every optional field filled in, shaped like a real Coople job. */
+export function makeJobDetails(overrides: Partial<JobDetails> = {}): JobDetails {
+  return {
+    ...makeJob('job-1'),
+    title: 'AllrounderIn / BetriebsmitarbeiterIn',
+    referenceNumber: '60261055776',
+    hourlyWage: { amount: 27, currency: 'CHF' },
+    totalPay: { amount: 445.5, currency: 'CHF' },
+    location: { street: 'Bahnhofstrasse 1', zip: '6343', city: 'Rotkreuz ZG', countryCode: 'CH' },
+    appLink: 'https://coople.app.link/DV6KNlsy46b',
+    description:
+      'Die AG sucht einen Allrounder.\n**Aufgaben:**\n- Gemüse rüsten\n- Abwasch\n\n**Fähigkeiten:**\n- Pünktlichkeit',
+    dressCode: 'T-Shirt und Schürze werden gestellt',
+    endsAt: '2026-10-14T13:00:00.000Z',
+    firstShiftEndsAt: '2026-10-12T13:00:00.000Z',
+    shiftCount: 2,
+    totalWorkMinutes: 990,
+    ...overrides,
+  };
+}
+
+/** The same job with everything that only the details endpoint provides removed. */
+export function makeBareJobDetails(overrides: Partial<JobDetails> = {}): JobDetails {
+  return makeJobDetails({
+    location: { street: null, zip: '6343', city: 'Rotkreuz ZG', countryCode: null },
+    appLink: null,
+    description: null,
+    dressCode: null,
+    endsAt: null,
+    firstShiftEndsAt: null,
+    shiftCount: null,
+    totalWorkMinutes: null,
+    ...overrides,
+  });
+}
 
 export function makeJob(id: string): JobSummary {
   return {
