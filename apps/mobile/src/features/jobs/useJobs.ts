@@ -1,12 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
-import { fetchJobs, type JobListParams } from '../../api/jobsApi';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import { fetchJobs } from '../../api/jobsApi';
 import { jobQueryKeys } from './jobQueryKeys';
+import { getNextPageNumber } from './pagination';
 
-const FIRST_PAGE: JobListParams = { page: 0, pageSize: 30 };
+export const PAGE_SIZE = 30;
+
+export const jobsInfiniteQueryOptions = infiniteQueryOptions({
+  queryKey: jobQueryKeys.list(PAGE_SIZE),
+  queryFn: ({ pageParam, signal }) =>
+    fetchJobs({ page: pageParam, pageSize: PAGE_SIZE }, { signal }),
+  initialPageParam: 0,
+  getNextPageParam: getNextPageNumber,
+});
 
 export function useJobs() {
-  return useQuery({
-    queryKey: jobQueryKeys.list(FIRST_PAGE),
-    queryFn: ({ signal }) => fetchJobs(FIRST_PAGE, { signal }),
-  });
+  return useInfiniteQuery(jobsInfiniteQueryOptions);
 }

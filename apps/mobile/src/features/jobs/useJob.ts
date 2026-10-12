@@ -1,5 +1,10 @@
 import type { JobDetails, JobSummary, Page } from '@coople-jobs/shared';
-import { useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
+import {
+  useQuery,
+  useQueryClient,
+  type InfiniteData,
+  type QueryClient,
+} from '@tanstack/react-query';
 import { fetchJob } from '../../api/jobsApi';
 import { jobQueryKeys } from './jobQueryKeys';
 
@@ -21,16 +26,22 @@ export function useJob(id: string) {
   });
 }
 
-function findCachedSummary(queryClient: QueryClient, id: string): JobSummary | undefined {
-  const pages = queryClient.getQueriesData<Page<JobSummary>>({ queryKey: jobQueryKeys.lists() });
-  for (const [, page] of pages) {
-    const match = page?.items.find((job) => job.id === id);
-    if (match) return match;
+/** Looks the job up in every loaded page of every cached job list. */
+export function findCachedSummary(queryClient: QueryClient, id: string): JobSummary | undefined {
+  const lists = queryClient.getQueriesData<InfiniteData<Page<JobSummary>>>({
+    queryKey: jobQueryKeys.lists(),
+  });
+
+  for (const [, list] of lists) {
+    for (const page of list?.pages ?? []) {
+      const match = page.items.find((job) => job.id === id);
+      if (match) return match;
+    }
   }
   return undefined;
 }
 
-function toPlaceholderDetails(summary: JobSummary): JobDetails {
+export function toPlaceholderDetails(summary: JobSummary): JobDetails {
   return {
     ...summary,
     description: null,

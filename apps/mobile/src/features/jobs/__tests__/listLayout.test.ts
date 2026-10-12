@@ -1,25 +1,8 @@
-import type { JobSummary } from '@coople-jobs/shared';
 import { toListEntries } from '../listLayout';
-
-function job(id: string): JobSummary {
-  return {
-    id,
-    referenceNumber: id,
-    title: `Job ${id}`,
-    hourlyWage: { amount: 25, currency: 'CHF' },
-    totalPay: { amount: 200, currency: 'CHF' },
-    location: { street: null, zip: '8000', city: 'Zürich', countryCode: 'CH' },
-    startsAt: '2026-10-12T04:00:00.000Z',
-    publishedAt: '2026-10-08T15:22:09.000Z',
-    appLink: null,
-  };
-}
-
-const jobs = (count: number): JobSummary[] =>
-  Array.from({ length: count }, (_, index) => job(`job-${index}`));
+import { makeJobs } from '../../../testing/jobFactories';
 
 function kinds(count: number, columns: number): string[] {
-  return toListEntries(jobs(count), columns).map((entry) => entry.kind);
+  return toListEntries(makeJobs(count), columns).map((entry) => entry.kind);
 }
 
 describe('toListEntries', () => {
@@ -41,13 +24,13 @@ describe('toListEntries', () => {
   it('always produces a multiple of the column count', () => {
     for (let columns = 1; columns <= 3; columns += 1) {
       for (let count = 0; count <= 10; count += 1) {
-        expect(toListEntries(jobs(count), columns).length % columns).toBe(0);
+        expect(toListEntries(makeJobs(count), columns).length % columns).toBe(0);
       }
     }
   });
 
   it('keeps the jobs in order and uses unique keys', () => {
-    const entries = toListEntries(jobs(4), 3);
+    const entries = toListEntries(makeJobs(4), 3);
     const keys = entries.map((entry) => entry.key);
 
     expect(keys).toEqual(['job-0', 'job-1', 'job-2', 'job-3', 'filler-0', 'filler-1']);
