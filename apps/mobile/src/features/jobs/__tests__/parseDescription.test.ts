@@ -1,4 +1,4 @@
-import { parseDescription, parseInline } from '../parseDescription';
+import { parseDescription, parseInline } from '@/features/jobs/utils/parseDescription';
 
 describe('parseDescription', () => {
   it('turns a line that is entirely bold into a heading', () => {

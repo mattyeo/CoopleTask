@@ -1,16 +1,16 @@
 import { screen, userEvent } from '@testing-library/react-native';
-import { ApiError } from '../../../api/ApiError';
-import { fetchJobs } from '../../../api/jobsApi';
-import { ERROR_MESSAGES } from '../../../lib/errorMessages';
-import { makeJobs, makePage } from '../../../testing/jobFactories';
-import { renderWithProviders } from '../../../testing/renderWithProviders';
-import { useBreakpoint, type Breakpoint } from '../../../theme/useBreakpoint';
-import { useFavouritesStore } from '../../favourites/favouritesStore';
-import { JobListScreen } from '../JobListScreen';
+import { ApiError } from '@/shared/api/ApiError';
+import { fetchJobs } from '@/features/jobs/api/jobsApi';
+import { ERROR_MESSAGES } from '@/shared/utils/errorMessages';
+import { makeJobs, makePage } from '@/test-utils/jobFactories';
+import { renderWithProviders } from '@/test-utils/renderWithProviders';
+import { useBreakpoint, type Breakpoint } from '@/shared/theme/useBreakpoint';
+import { useFavouritesStore } from '@/features/favourites/favouritesStore';
+import { JobListScreen } from '@/features/jobs/screens/JobListScreen';
 
-jest.mock('../../../api/jobsApi', () => ({ fetchJobs: jest.fn(), fetchJob: jest.fn() }));
-jest.mock('../../../theme/useBreakpoint', () => ({
-  ...jest.requireActual('../../../theme/useBreakpoint'),
+jest.mock('@/features/jobs/api/jobsApi', () => ({ fetchJobs: jest.fn(), fetchJob: jest.fn() }));
+jest.mock('@/shared/theme/useBreakpoint', () => ({
+  ...jest.requireActual('@/shared/theme/useBreakpoint'),
   useBreakpoint: jest.fn(),
 }));
 

@@ -16,7 +16,10 @@
     "setupFiles": [
       "<rootDir>/jest.setup.ts"
     ],
-    "clearMocks": true
+    "clearMocks": true,
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
   },
   "dependencies": {
     "@coople-jobs/shared": "*",

@@ -1,8 +1,8 @@
 import { router, Stack } from 'expo-router';
 import { StyleSheet, Text } from 'react-native';
-import { Button } from '../components/Button';
-import { StateLayout } from '../components/StateLayout';
-import { colors, fontSizes, lineHeights } from '../theme/tokens';
+import { Button } from '@/shared/components/ui/Button';
+import { StateLayout } from '@/shared/components/feedback/StateLayout';
+import { colors, fontSizes, lineHeights } from '@/shared/theme/tokens';
 
 export default function NotFoundRoute() {
   return (

@@ -1,25 +1,20 @@
 import { act, screen, userEvent } from '@testing-library/react-native';
 import { router, Stack } from 'expo-router';
 import { Linking } from 'react-native';
-import { ApiError } from '../../../api/ApiError';
-import { fetchJob } from '../../../api/jobsApi';
-import { ERROR_MESSAGES } from '../../../lib/errorMessages';
-import {
-  makeBareJobDetails,
-  makeJob,
-  makeJobDetails,
-  makePage,
-} from '../../../testing/jobFactories';
-import { createTestQueryClient, renderWithProviders } from '../../../testing/renderWithProviders';
-import { useBreakpoint, type Breakpoint } from '../../../theme/useBreakpoint';
-import { useFavouritesStore } from '../../favourites/favouritesStore';
-import { JobDetailsScreen } from '../JobDetailsScreen';
-import { jobQueryKeys } from '../jobQueryKeys';
-import { PAGE_SIZE } from '../useJobs';
+import { ApiError } from '@/shared/api/ApiError';
+import { fetchJob } from '@/features/jobs/api/jobsApi';
+import { ERROR_MESSAGES } from '@/shared/utils/errorMessages';
+import { makeBareJobDetails, makeJob, makeJobDetails, makePage } from '@/test-utils/jobFactories';
+import { createTestQueryClient, renderWithProviders } from '@/test-utils/renderWithProviders';
+import { useBreakpoint, type Breakpoint } from '@/shared/theme/useBreakpoint';
+import { useFavouritesStore } from '@/features/favourites/favouritesStore';
+import { JobDetailsScreen } from '@/features/jobs/screens/JobDetailsScreen';
+import { jobQueryKeys } from '@/features/jobs/api/jobQueryKeys';
+import { PAGE_SIZE } from '@/features/jobs/hooks/useJobs';
 
-jest.mock('../../../api/jobsApi', () => ({ fetchJobs: jest.fn(), fetchJob: jest.fn() }));
-jest.mock('../../../theme/useBreakpoint', () => ({
-  ...jest.requireActual('../../../theme/useBreakpoint'),
+jest.mock('@/features/jobs/api/jobsApi', () => ({ fetchJobs: jest.fn(), fetchJob: jest.fn() }));
+jest.mock('@/shared/theme/useBreakpoint', () => ({
+  ...jest.requireActual('@/shared/theme/useBreakpoint'),
   useBreakpoint: jest.fn(),
 }));
 

@@ -1,10 +1,10 @@
 import { screen } from '@testing-library/react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { fetchJob } from '../../../api/jobsApi';
-import { renderWithProviders } from '../../../testing/renderWithProviders';
-import JobRoute from '../../../app/job/[id]';
+import { fetchJob } from '@/features/jobs/api/jobsApi';
+import { renderWithProviders } from '@/test-utils/renderWithProviders';
+import JobRoute from '@/app/job/[id]';
 
-jest.mock('../../../api/jobsApi', () => ({ fetchJobs: jest.fn(), fetchJob: jest.fn() }));
+jest.mock('@/features/jobs/api/jobsApi', () => ({ fetchJobs: jest.fn(), fetchJob: jest.fn() }));
 
 const fetchJobMock = jest.mocked(fetchJob);
 const paramsMock = jest.mocked(useLocalSearchParams);

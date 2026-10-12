@@ -1,5 +1,5 @@
-import { getNextPageNumber, mergePages } from '../pagination';
-import { makeJob, makeJobs, makePage } from '../../../testing/jobFactories';
+import { getNextPageNumber, mergePages } from '@/features/jobs/utils/pagination';
+import { makeJob, makeJobs, makePage } from '@/test-utils/jobFactories';
 
 describe('getNextPageNumber', () => {
   it('asks for the page after the last one while there are more', () => {

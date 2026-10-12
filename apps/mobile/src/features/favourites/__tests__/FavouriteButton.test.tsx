@@ -1,6 +1,6 @@
 import { act, render, screen, userEvent } from '@testing-library/react-native';
-import { FavouriteButton } from '../FavouriteButton';
-import { useFavouritesStore } from '../favouritesStore';
+import { FavouriteButton } from '@/features/favourites/FavouriteButton';
+import { useFavouritesStore } from '@/features/favourites/favouritesStore';
 
 beforeEach(() => {
   useFavouritesStore.setState({ favouriteIds: {}, hasHydrated: true });

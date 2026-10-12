@@ -1,9 +1,9 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { queryClient } from '../api/queryClient';
-import { BackButton } from '../components/BackButton';
-import { colors, fontSizes, fontWeights } from '../theme/tokens';
+import { queryClient } from '@/shared/api/queryClient';
+import { BackButton } from '@/shared/navigation/BackButton';
+import { colors, fontSizes, fontWeights } from '@/shared/theme/tokens';
 
 export default function RootLayout() {
   return (

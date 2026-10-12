@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { FAVOURITES_STORAGE_KEY, useFavouritesStore } from '../favouritesStore';
+import { FAVOURITES_STORAGE_KEY, useFavouritesStore } from '@/features/favourites/favouritesStore';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
   jest.requireActual('@react-native-async-storage/async-storage/jest/async-storage-mock'),

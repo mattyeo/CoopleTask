@@ -1,5 +1,5 @@
-import { toListEntries } from '../listLayout';
-import { makeJobs } from '../../../testing/jobFactories';
+import { toListEntries } from '@/features/jobs/utils/listLayout';
+import { makeJobs } from '@/test-utils/jobFactories';
 
 function kinds(count: number, columns: number): string[] {
   return toListEntries(makeJobs(count), columns).map((entry) => entry.kind);

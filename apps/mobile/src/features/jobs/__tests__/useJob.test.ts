@@ -1,8 +1,8 @@
 import type { JobSummary, Page } from '@coople-jobs/shared';
 import { QueryClient, type InfiniteData } from '@tanstack/react-query';
-import { jobQueryKeys } from '../jobQueryKeys';
-import { findCachedSummary, toPlaceholderDetails } from '../useJob';
-import { makeJob, makeJobs, makePage } from '../../../testing/jobFactories';
+import { jobQueryKeys } from '@/features/jobs/api/jobQueryKeys';
+import { findCachedSummary, toPlaceholderDetails } from '@/features/jobs/hooks/useJob';
+import { makeJob, makeJobs, makePage } from '@/test-utils/jobFactories';
 
 function infiniteData(...pages: Page<JobSummary>[]): InfiniteData<Page<JobSummary>> {
   return { pages, pageParams: pages.map((_, index) => index) };

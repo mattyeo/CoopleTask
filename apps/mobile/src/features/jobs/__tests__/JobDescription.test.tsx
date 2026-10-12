@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react-native';
-import { JobDescription } from '../JobDescription';
+import { JobDescription } from '@/features/jobs/components/JobDescription';
 
 describe('JobDescription', () => {
   it('shows a bold line as a heading', async () => {

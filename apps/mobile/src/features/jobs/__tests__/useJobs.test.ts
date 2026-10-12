@@ -1,10 +1,10 @@
 import { QueryClient } from '@tanstack/react-query';
-import { fetchJobs } from '../../../api/jobsApi';
-import { jobQueryKeys } from '../jobQueryKeys';
-import { PAGE_SIZE, jobsInfiniteQueryOptions } from '../useJobs';
-import { makeJobs, makePage } from '../../../testing/jobFactories';
+import { fetchJobs } from '@/features/jobs/api/jobsApi';
+import { jobQueryKeys } from '@/features/jobs/api/jobQueryKeys';
+import { PAGE_SIZE, jobsInfiniteQueryOptions } from '@/features/jobs/hooks/useJobs';
+import { makeJobs, makePage } from '@/test-utils/jobFactories';
 
-jest.mock('../../../api/jobsApi');
+jest.mock('@/features/jobs/api/jobsApi');
 
 const fetchJobsMock = jest.mocked(fetchJobs);
 

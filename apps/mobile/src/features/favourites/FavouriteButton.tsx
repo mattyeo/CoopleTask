@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { getInteractionState } from '../../components/pressableState';
-import { colors, fontSizes, touchTarget } from '../../theme/tokens';
+import { getInteractionState } from '@/shared/components/ui/pressableState';
+import { colors, fontSizes, touchTarget } from '@/shared/theme/tokens';
 import { useFavouritesStore, useIsFavourite } from './favouritesStore';
 
 interface FavouriteButtonProps {
