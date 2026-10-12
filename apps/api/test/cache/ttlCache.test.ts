@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { TtlCache } from '../src/cache/ttlCache';
+import { TtlCache } from '../../src/cache/ttlCache';
 
 const TTL = 1000;
 

@@ -5,10 +5,10 @@ import {
   coopleJobListSchema,
   type CoopleJobDetailsDto,
   type CoopleJobSummaryDto,
-} from '../src/coople/coopleSchemas';
-import { toJobDetails, toJobSummary } from '../src/jobs/jobMappers';
-import detailsFixture from './fixtures/details.json';
-import listFixture from './fixtures/list.json';
+} from '../../src/coople/coopleSchemas';
+import { toJobDetails, toJobSummary } from '../../src/jobs/jobMappers';
+import detailsFixture from '../fixtures/details.json';
+import listFixture from '../fixtures/list.json';
 
 const [summaryDto, summaryWithStateDto] = coopleJobListSchema.parse(listFixture.data).items as [
   CoopleJobSummaryDto,

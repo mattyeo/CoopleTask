@@ -1,18 +1,18 @@
 import type { ApiErrorCode, JobDetails, Page, JobSummary } from '@coople-jobs/shared';
 import type { FastifyInstance } from 'fastify';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { buildApp } from '../src/app';
-import { loadConfig } from '../src/config';
+import { buildApp } from '../../src/app';
+import { loadConfig } from '../../src/config';
 import {
   UpstreamInvalidResponseError,
   UpstreamNotFoundError,
   UpstreamTimeoutError,
   UpstreamUnavailableError,
-} from '../src/coople/coopleErrors';
-import { coopleJobDetailsSchema, coopleJobListSchema } from '../src/coople/coopleSchemas';
-import detailsFixture from './fixtures/details.json';
-import listFixture from './fixtures/list.json';
-import { createStubCoopleClient } from './stubCoopleClient';
+} from '../../src/coople/coopleErrors';
+import { coopleJobDetailsSchema, coopleJobListSchema } from '../../src/coople/coopleSchemas';
+import detailsFixture from '../fixtures/details.json';
+import listFixture from '../fixtures/list.json';
+import { createStubCoopleClient } from '../helpers/stubCoopleClient';
 
 const JOB_ID = '2c92cf2f-5073-4842-bedd-580e3a8feea9';
 const NIL_UUID = '00000000-0000-0000-0000-000000000000';

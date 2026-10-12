@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { buildApp } from '../src/app';
-import { loadConfig } from '../src/config';
-import { createStubCoopleClient } from './stubCoopleClient';
+import { buildApp } from '../../src/app';
+import { loadConfig } from '../../src/config';
+import { createStubCoopleClient } from '../helpers/stubCoopleClient';
 
 function buildTestApp() {
   return buildApp({ config: loadConfig({}), coopleClient: createStubCoopleClient() });

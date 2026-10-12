@@ -1,14 +1,14 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createCoopleClient } from '../src/coople/coopleClient';
+import { createCoopleClient } from '../../src/coople/coopleClient';
 import {
   UpstreamInvalidResponseError,
   UpstreamNotFoundError,
   UpstreamTimeoutError,
   UpstreamUnavailableError,
-} from '../src/coople/coopleErrors';
-import detailsFixture from './fixtures/details.json';
-import listFixture from './fixtures/list.json';
-import notFoundFixture from './fixtures/notFound.json';
+} from '../../src/coople/coopleErrors';
+import detailsFixture from '../fixtures/details.json';
+import listFixture from '../fixtures/list.json';
+import notFoundFixture from '../fixtures/notFound.json';
 
 const BASE_URL = 'https://coople.test/public-jobs';
 const JOB_ID = '2c92cf2f-5073-4842-bedd-580e3a8feea9';

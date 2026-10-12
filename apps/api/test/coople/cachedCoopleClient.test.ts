@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { createCachedCoopleClient } from '../src/coople/cachedCoopleClient';
-import { UpstreamNotFoundError, UpstreamUnavailableError } from '../src/coople/coopleErrors';
-import { coopleJobDetailsSchema, coopleJobListSchema } from '../src/coople/coopleSchemas';
-import detailsFixture from './fixtures/details.json';
-import listFixture from './fixtures/list.json';
-import { createStubCoopleClient } from './stubCoopleClient';
+import { createCachedCoopleClient } from '../../src/coople/cachedCoopleClient';
+import { UpstreamNotFoundError, UpstreamUnavailableError } from '../../src/coople/coopleErrors';
+import { coopleJobDetailsSchema, coopleJobListSchema } from '../../src/coople/coopleSchemas';
+import detailsFixture from '../fixtures/details.json';
+import listFixture from '../fixtures/list.json';
+import { createStubCoopleClient } from '../helpers/stubCoopleClient';
 
 const LIST_TTL = 60_000;
 const DETAILS_TTL = 300_000;

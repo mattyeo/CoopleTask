@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import type { CoopleClient } from '../src/coople/coopleClient';
+import type { CoopleClient } from '../../src/coople/coopleClient';
 
 export function createStubCoopleClient() {
   return {
