@@ -1,1 +1,10 @@
 PLAN.md
+node_modules
+.expo
+dist
+web-build
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+.DS_Store
