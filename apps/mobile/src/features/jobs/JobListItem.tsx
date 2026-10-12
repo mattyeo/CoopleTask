@@ -3,6 +3,7 @@ import { Link } from 'expo-router';
 import { memo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { formatDateTime, formatMoney } from '../../lib/format';
+import { FavouriteButton } from '../favourites/FavouriteButton';
 
 interface JobListItemProps {
   job: JobSummary;
@@ -25,6 +26,7 @@ export const JobListItem = memo(function JobListItem({ job }: JobListItemProps) 
           {startsAt ? <Text style={styles.detail}>Starts {startsAt}</Text> : null}
         </Pressable>
       </Link>
+      <FavouriteButton jobId={job.id} />
     </View>
   );
 });

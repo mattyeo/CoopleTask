@@ -7,6 +7,7 @@ import { ErrorState } from '../../components/ErrorState';
 import { LoadingState } from '../../components/LoadingState';
 import { formatDateTime, formatDuration, formatMoney } from '../../lib/format';
 import { goBackToList } from '../../lib/navigation';
+import { FavouriteButton } from '../favourites/FavouriteButton';
 import { JobDescription } from './JobDescription';
 import { useJob } from './useJob';
 
@@ -32,7 +33,9 @@ export function JobDetailsScreen({ id }: JobDetailsScreenProps) {
 
   return (
     <ScrollView contentContainerStyle={styles.content}>
-      <Stack.Screen options={{ title: job.title }} />
+      <Stack.Screen
+        options={{ title: job.title, headerRight: () => <FavouriteButton jobId={job.id} /> }}
+      />
 
       <View style={styles.header}>
         <Text style={styles.title} accessibilityRole="header">

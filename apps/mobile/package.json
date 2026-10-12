@@ -17,6 +17,7 @@
   "dependencies": {
     "@coople-jobs/shared": "*",
     "@expo/metro-runtime": "~57.0.16",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@tanstack/react-query": "^5.104.2",
     "expo": "~57.0.27",
     "expo-constants": "~57.0.21",
@@ -30,7 +31,8 @@
     "react-native": "0.86.3",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "~4.26.0",
-    "react-native-web": "~0.21.0"
+    "react-native-web": "~0.21.0",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@types/jest": "29.5.14",
