@@ -69,7 +69,7 @@ An npm-workspaces monorepo:
 
 ```
 apps/api          Fastify API: routes, service, mappers, Coople client, cache
-apps/mobile       Expo app: routes in src/app, screens in src/features, theme in src/theme
+apps/mobile       Expo app: routes in src/app, features in src/features, shared code (theme, API client, UI) in src/shared
 packages/shared   TypeScript types shared by both sides (the contract between them)
 ```
 
@@ -116,7 +116,7 @@ The layout adapts to the window width, live, with no reload:
 | 600–1023 px  | 2 columns | one column, centred                                          |
 | 1024 px up   | 3 columns | two columns: description on the left, key facts on the right |
 
-Colours, spacing and type sizes come from one small token file ([`apps/mobile/src/theme/tokens.ts`](apps/mobile/src/theme/tokens.ts)); a unit test checks that every text colour pair meets WCAG AA contrast. Times are shown in Swiss time (`Europe/Zurich`) whatever the viewer's timezone, and money in Swiss format.
+Colours, spacing and type sizes come from one small token file ([`apps/mobile/src/shared/theme/tokens.ts`](apps/mobile/src/shared/theme/tokens.ts)); a unit test checks that every text colour pair meets WCAG AA contrast. Times are shown in Swiss time (`Europe/Zurich`) whatever the viewer's timezone, and money in Swiss format.
 
 ## Tests
 
