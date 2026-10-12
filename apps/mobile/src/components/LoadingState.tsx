@@ -1,18 +1,11 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator } from 'react-native';
+import { colors } from '../theme/tokens';
+import { StateLayout } from './StateLayout';
 
 export function LoadingState() {
   return (
-    <View style={styles.container} accessibilityRole="progressbar" accessibilityLabel="Loading">
-      <ActivityIndicator size="large" />
-    </View>
+    <StateLayout accessibilityRole="progressbar" accessibilityLabel="Loading">
+      <ActivityIndicator size="large" color={colors.primary} />
+    </StateLayout>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-  },
-});

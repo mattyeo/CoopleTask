@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { isRetryable } from '../api/ApiError';
 import { getErrorMessage } from '../lib/errorMessages';
+import { colors, fontSizes, lineHeights } from '../theme/tokens';
 import { Button } from './Button';
+import { StateLayout } from './StateLayout';
 
 interface ErrorStateProps {
   error: unknown;
@@ -14,25 +16,19 @@ export function ErrorState({ error, onRetry, onBack }: ErrorStateProps) {
   const retryable = isRetryable(error);
 
   return (
-    <View style={styles.container} accessibilityRole="alert">
+    <StateLayout accessibilityRole="alert">
       <Text style={styles.message}>{getErrorMessage(error)}</Text>
       {retryable && onRetry ? <Button label="Retry" onPress={onRetry} /> : null}
       {!retryable && onBack ? <Button label="Back to jobs" onPress={onBack} /> : null}
-    </View>
+    </StateLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 16,
-    padding: 24,
-  },
   message: {
-    color: '#111827',
-    fontSize: 16,
+    color: colors.text,
+    fontSize: fontSizes.md,
+    lineHeight: lineHeights.md,
     textAlign: 'center',
   },
 });

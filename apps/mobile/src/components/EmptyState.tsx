@@ -1,5 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import { colors, fontSizes, fontWeights, lineHeights, spacing } from '../theme/tokens';
 import { Button } from './Button';
+import { StateLayout } from './StateLayout';
 
 interface EmptyStateProps {
   title: string;
@@ -10,31 +12,29 @@ interface EmptyStateProps {
 
 export function EmptyState({ title, message, actionLabel, onAction }: EmptyStateProps) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
+    <StateLayout>
+      <Text style={styles.title} accessibilityRole="header">
+        {title}
+      </Text>
       {message ? <Text style={styles.message}>{message}</Text> : null}
       {actionLabel && onAction ? <Button label={actionLabel} onPress={onAction} /> : null}
-    </View>
+    </StateLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 12,
-    padding: 24,
-  },
   title: {
-    color: '#111827',
-    fontSize: 18,
-    fontWeight: '600',
+    color: colors.text,
+    fontSize: fontSizes.lg,
+    fontWeight: fontWeights.semibold,
+    lineHeight: lineHeights.lg,
     textAlign: 'center',
   },
   message: {
-    color: '#4b5563',
-    fontSize: 16,
+    color: colors.textMuted,
+    fontSize: fontSizes.md,
+    lineHeight: lineHeights.md,
+    marginBottom: spacing.xs,
     textAlign: 'center',
   },
 });

@@ -1,5 +1,7 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { goBackToList } from '../lib/navigation';
+import { colors, fontSizes, spacing, touchTarget } from '../theme/tokens';
+import { getInteractionState } from './pressableState';
 
 export function BackButton() {
   return (
@@ -7,8 +9,10 @@ export function BackButton() {
       accessibilityRole="button"
       accessibilityLabel="Back to jobs"
       onPress={goBackToList}
-      hitSlop={8}
-      style={styles.button}
+      style={(state) => {
+        const { pressed, hovered } = getInteractionState(state);
+        return [styles.button, (pressed || hovered) && styles.active];
+      }}
     >
       <Text style={styles.label}>‹ Jobs</Text>
     </Pressable>
@@ -17,11 +21,16 @@ export function BackButton() {
 
 const styles = StyleSheet.create({
   button: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    cursor: 'pointer',
+    justifyContent: 'center',
+    minHeight: touchTarget,
+    paddingHorizontal: spacing.sm,
+  },
+  active: {
+    opacity: 0.7,
   },
   label: {
-    color: '#1a56db',
-    fontSize: 17,
+    color: colors.primary,
+    fontSize: fontSizes.md,
   },
 });

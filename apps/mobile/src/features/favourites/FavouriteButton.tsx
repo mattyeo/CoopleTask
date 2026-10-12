@@ -1,4 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { getInteractionState } from '../../components/pressableState';
+import { colors, fontSizes, touchTarget } from '../../theme/tokens';
 import { useFavouritesStore, useIsFavourite } from './favouritesStore';
 
 interface FavouriteButtonProps {
@@ -19,27 +21,39 @@ export function FavouriteButton({ jobId }: FavouriteButtonProps) {
       accessibilityRole="button"
       accessibilityLabel={isFavourite ? 'Remove from favourites' : 'Add to favourites'}
       accessibilityState={{ selected: isFavourite }}
-      hitSlop={8}
       onPress={() => toggleFavourite(jobId)}
-      style={styles.button}
+      style={(state) => {
+        const { pressed, hovered } = getInteractionState(state);
+        return [styles.button, styles.interactive, (pressed || hovered) && styles.active];
+      }}
     >
-      <Text style={[styles.star, isFavourite && styles.starActive]}>{isFavourite ? '★' : '☆'}</Text>
+      <Text style={[styles.star, isFavourite ? styles.starActive : styles.starInactive]}>
+        {isFavourite ? '★' : '☆'}
+      </Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    width: 44,
-    height: 44,
     alignItems: 'center',
+    height: touchTarget,
     justifyContent: 'center',
+    width: touchTarget,
+  },
+  interactive: {
+    cursor: 'pointer',
+  },
+  active: {
+    opacity: 0.7,
   },
   star: {
-    color: '#6b7280',
-    fontSize: 24,
+    fontSize: fontSizes.xl,
   },
   starActive: {
-    color: '#d97706',
+    color: colors.favourite,
+  },
+  starInactive: {
+    color: colors.favouriteInactive,
   },
 });
