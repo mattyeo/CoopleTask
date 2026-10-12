@@ -21,7 +21,12 @@ export async function buildApp(
   await app.register(cors, { origin: deps.config.corsOrigin });
 
   app.get('/api/health', async () => ({ status: 'ok' }));
-  await app.register(jobsRoutes(createJobsService(deps.coopleClient, app.log)));
+  await app.register(
+    jobsRoutes(createJobsService(deps.coopleClient, app.log), {
+      listMaxAgeMs: deps.config.listCacheTtlMs,
+      detailsMaxAgeMs: deps.config.detailsCacheTtlMs,
+    }),
+  );
 
   return app;
 }

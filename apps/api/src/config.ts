@@ -7,6 +7,9 @@ const configSchema = z.object({
     .url()
     .default('https://www.coople.com/ch/resources/api/work-assignments/public-jobs'),
   UPSTREAM_TIMEOUT_MS: z.coerce.number().int().min(1).default(8000),
+  // 0 switches the cache for that kind of answer off.
+  CACHE_LIST_TTL_MS: z.coerce.number().int().min(0).default(60_000),
+  CACHE_DETAILS_TTL_MS: z.coerce.number().int().min(0).default(300_000),
 });
 
 export interface AppConfig {
@@ -14,6 +17,8 @@ export interface AppConfig {
   corsOrigin: string;
   coopleBaseUrl: string;
   upstreamTimeoutMs: number;
+  listCacheTtlMs: number;
+  detailsCacheTtlMs: number;
 }
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
@@ -26,5 +31,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     corsOrigin: parsed.data.CORS_ORIGIN,
     coopleBaseUrl: parsed.data.COOPLE_BASE_URL,
     upstreamTimeoutMs: parsed.data.UPSTREAM_TIMEOUT_MS,
+    listCacheTtlMs: parsed.data.CACHE_LIST_TTL_MS,
+    detailsCacheTtlMs: parsed.data.CACHE_DETAILS_TTL_MS,
   };
 }
