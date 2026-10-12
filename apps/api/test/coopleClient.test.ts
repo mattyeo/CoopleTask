@@ -150,6 +150,14 @@ describe('coopleClient error handling', () => {
     expect((error as UpstreamInvalidResponseError).details.issues).toBeDefined();
   });
 
+  it('rejects timestamps that cannot be represented as dates', async () => {
+    const body = structuredClone(listFixture);
+    body.data.items[0]!.periodFrom = 1e20;
+    const client = clientWith(stubFetch(jsonResponse(body)));
+
+    await expect(client.listJobs(0, 30)).rejects.toBeInstanceOf(UpstreamInvalidResponseError);
+  });
+
   it('maps a successful response that is not an envelope to UpstreamInvalidResponseError', async () => {
     const client = clientWith(stubFetch(jsonResponse({ hello: 'world' })));
 

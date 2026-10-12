@@ -12,6 +12,11 @@ export const coopleEnvelopeSchema = z.object({
   data: z.unknown().optional(),
 });
 
+// Epoch milliseconds that `new Date()` can represent, so mapping to ISO 8601 can never throw.
+const epochMsSchema = z.number().refine((value) => !Number.isNaN(new Date(value).getTime()), {
+  message: 'Invalid epoch milliseconds timestamp',
+});
+
 const coopleMoneySchema = z.object({
   amount: z.number(),
   currencyId: z.number(),
@@ -31,16 +36,16 @@ export const coopleJobSummarySchema = z.object({
   hourlyWage: coopleMoneySchema,
   salary: coopleMoneySchema,
   jobLocation: coopleLocationSchema,
-  periodFrom: z.number(),
-  datePublished: z.number(),
+  periodFrom: epochMsSchema,
+  datePublished: epochMsSchema,
   branchLink: z.string().nullish(),
 });
 
 export const coopleJobDetailsSchema = coopleJobSummarySchema.extend({
   requirements: z.string().nullish(),
   clothingRequirements: z.string().nullish(),
-  periodTo: z.number().nullish(),
-  firstShiftTo: z.number().nullish(),
+  periodTo: epochMsSchema.nullish(),
+  firstShiftTo: epochMsSchema.nullish(),
   shiftsCount: z.number().nullish(),
   workDuration: z.number().nullish(),
 });
