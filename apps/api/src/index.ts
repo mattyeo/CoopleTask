@@ -1,8 +1,13 @@
 import { buildApp } from './app';
+import { createCoopleClient } from './coople/coopleClient';
 import { loadConfig } from './config';
 
 const config = loadConfig();
-const app = await buildApp({ config }, { logger: true });
+const coopleClient = createCoopleClient({
+  baseUrl: config.coopleBaseUrl,
+  timeoutMs: config.upstreamTimeoutMs,
+});
+const app = await buildApp({ config, coopleClient }, { logger: true });
 
 try {
   await app.listen({ port: config.port, host: '0.0.0.0' });
