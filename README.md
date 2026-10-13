@@ -2,10 +2,10 @@
 
 A small app that lists public [Coople](https://www.coople.com) jobs, shows the details of each job on its own page, and lets you mark jobs as **favourites**. It is a React Native (Expo) app that runs on the web, backed by a small Node/TypeScript API.
 
-|     |     |     |
-| --- | --- | --- |
-|     |     |     |
-|     |     |     |
+|                                                                                   |                                                                                         |                                                                                                    |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| <img src="docs/media/list-phone.png" width="240" alt="Job list on a phone" />     | <img src="docs/media/details-phone.png" width="240" alt="Job details on a phone" />     | <img src="docs/media/list-tablet.png" width="360" alt="Job list on a tablet, 2 columns" />         |
+| <img src="docs/media/list-desktop.png" width="500" alt="Job list on a desktop" /> | <img src="docs/media/details-desktop.png" width="500" alt="Job details on a desktop" /> | <img src="docs/media/favourites.png" width="360" alt="Favourited jobs shown with a filled star" /> |
 
 More states: [network error](docs/media/error-network.png) · [invalid link](docs/media/invalid-link.png).
 
