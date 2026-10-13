@@ -2,10 +2,10 @@
 
 A small app that lists public [Coople](https://www.coople.com) jobs, shows the details of each job on its own page, and lets you mark jobs as **favourites**. It is a React Native (Expo) app that runs on the web, backed by a small Node/TypeScript API.
 
-|  |  |  |
-| - | - | - |
-|  |  |  |
-|  |  |  |
+|     |     |     |
+| --- | --- | --- |
+|     |     |     |
+|     |     |     |
 
 More states: [network error](docs/media/error-network.png) · [invalid link](docs/media/invalid-link.png).
 
@@ -20,8 +20,8 @@ npm run dev
 
 Then open [http://localhost:8081](http://localhost:8081). `npm run dev` starts both parts:
 
-| Part    | Address                                                         | What it is                        |
-| ------- | --------------------------------------------------------------- | --------------------------------- |
+| Part    | Address                                                          | What it is                        |
+| ------- | ---------------------------------------------------------------- | --------------------------------- |
 | API     | [http://localhost:4000/api/jobs](http://localhost:4000/api/jobs) | Fastify server in front of Coople |
 | Web app | [http://localhost:8081](http://localhost:8081)                   | Expo (React Native Web)           |
 
@@ -33,12 +33,12 @@ Then open [http://localhost:8081](http://localhost:8081). `npm run dev` starts b
 
 Run from the repository root.
 
-| Command                  | What it does                                                 |
-| ------------------------ | ------------------------------------------------------------ |
-| `npm run dev`          | Start the API and the web app together                       |
-| `npm test`             | Run all tests (API with Vitest, app with Jest)               |
-| `npm run typecheck`    | TypeScript check of every workspace                          |
-| `npm run lint`         | ESLint                                                       |
+| Command                | What it does                                               |
+| ---------------------- | ---------------------------------------------------------- |
+| `npm run dev`          | Start the API and the web app together                     |
+| `npm test`             | Run all tests (API with Vitest, app with Jest)             |
+| `npm run typecheck`    | TypeScript check of every workspace                        |
+| `npm run lint`         | ESLint                                                     |
 | `npm run format:check` | Check formatting with Prettier (`npm run format` fixes it) |
 
 The same four checks run in CI on every push to `main` and every pull request ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
